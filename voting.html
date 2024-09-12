@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html >
+<head>
+   
+    <title>Vote interface</title>
+    <style>
+        body {
+            font-family: Arial;
+            justify-content: center;
+        }
+        h1 {
+            color: aqua;
+            text-align: center;
+        }
+        .pcontainer {
+            border: 3px solid black;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #poptions div {
+            margin-bottom: 10px;
+        }
+        input {
+            margin-right: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+          
+        }
+    </style>
+</head>
+<body>
+    <h1>Vote on the Poll</h1>
+    <div class="pcontainer">
+        <form id="vote-form">
+            <h2 id="poll-question">poll question</h2>
+            <div id="poptions">
+            </div>
+            <button type="submit" id="submit-vote">Submit Vote</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pollData = JSON.parse(localStorage.getItem('pollData'));
+
+            if (pollData) {
+                document.getElementById('poll-question').textContent = pollData.question;
+                const optionsContainer = document.getElementById('poptions');
+                pollData.options.forEach((option, index) => {
+                    const optionHtml = `
+                        <div>
+                            <input type="radio" id="option${index}" name="vote" value="${option}">
+                            <label for="option${index}">${option}</label>
+                        </div> `;
+                    optionsContainer.insertAdjacentHTML('beforeend', optionHtml);
+                });
+                 //  results
+                 const resultsContainer = document.getElementById('results');
+                pollData.options.forEach((option, index) => {
+                    const resultElem = document.createElement('div');
+                    resultElem.className = 'result-item';
+                    resultElem.id = `result-${index}`;
+                    resultElem.innerHTML = `<span>${option}:</span> 0 votes`;
+                    resultsContainer.appendChild(resultElem);
+                });
+            } else {
+                document.getElementById('poll-question').textContent = "No poll data found.";
+            }
+        });
+
+        document.getElementById('vote-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const selectedOption = document.querySelector('input[name="vote"]:checked');
+
+            if (selectedOption) {
+                alert('Vote submitted: ' + selectedOption.value);
+                localStorage.removeItem('pollData');
+               
+            } else {
+                alert('Please select an option before submitting.');
+            }
+        });
+    </script>
+</body>
+</html>

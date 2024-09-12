@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<title> admin Interface</title>
+<style>
+	body {
+    font-family: Arial;
+    justify-content: center;
+}
+    h1{
+        color:aqua;
+        text-align:center;
+    }
+    .form
+    {
+        border:3px ;
+        border-radius:20px;
+
+       
+    }
+    input {
+    width: 80%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 100px;
+    margin-bottom: 15px;
+    border: 1px solid #6b3a3a;
+    border-radius: 5px;
+}
+#sub{
+    width:20%;
+    justify-content: center;
+    margin-left:530px;
+
+
+}
+label{
+    margin-left: 100px;
+    color:blueviolet;
+    font-family:ariel;
+    font-size:25px;
+}
+
+</style>
+</head>
+<body>
+	<h1>Create a New Poll</h1>
+
+    <div class="fcontainer">
+        <form id="form" onsubmit="return validate()">
+            <label for="ques">Poll Question:</label><br>
+            <input type="text" id="ques" name="question" placeholder="Enter poll question" ><br>
+            <label for="option1">Option 1:</label><br>
+            <input type="text" id="option1" name="option1" placeholder="Enter option 1" ><br>
+            <label for="option2">Option 2:</label><br>
+            <input type="text" id="option2" name="option2" placeholder="Enter option 2" ><br>
+
+            <input type="submit" name="submit now" id="sub" >
+        </form>
+    </div>
+
+    <script>
+        function validate() {
+            var ques = document.getElementById('ques').value;
+            var op1 = document.getElementById('option1').value;
+            var op2 = document.getElementById('option2').value;
+
+            if (!ques || !op1 || !op2) {
+                alert("Please fill out the poll question and both options.");
+                return false; 
+            }
+
+            
+            const pollData = {
+                question: ques,
+                options: [op1, op2]
+            };
+            localStorage.setItem('pollData', JSON.stringify(pollData));
+
+            alert("Poll created successfully!");
+
+            window.location.href = 'voting.html'; return false;
+        }
+    </script>
+    
+</body>
+</html>
